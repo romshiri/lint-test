@@ -1,0 +1,38 @@
+apply plugin: 'java'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    compile 'com.android.tools.lint:lint-api:24.3.1'
+    compile 'com.android.tools.lint:lint-checks:24.3.1'
+
+    lintChecks files(jar)
+}
+
+jar {
+    baseName 'com.linters'
+    version '1.0'
+
+    manifest {
+        attributes 'Manifest-Version': 1.0
+        attributes('Lint-Registry': 'com.linters.SywIssueRsegistry')
+    }
+}
+
+defaultTasks 'assemble'
+
+task copyLintJar(type: Copy) {
+    println "rom**************"
+    description = 'Copies the lint jar file into the {user.home}/.android/lint folder.'
+    from('build/libs/')
+    into(System.getProperty("user.home") + '/.android/lint')
+    include("*.jar")
+}
+
+// Runs the copyLintJar task after build has completed.
+build.finalizedBy(copyLintJar)

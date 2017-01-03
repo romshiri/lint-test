@@ -12,7 +12,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.v("helo", "");
+        doSomthing();
 
     }
+
+    @CarefulNow
+    public void doSomthing(){
+
+    }
+
+
 
 }
